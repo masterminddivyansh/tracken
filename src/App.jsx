@@ -20,6 +20,10 @@ function PanelHead({ kicker, title, icon }) {
   );
 }
 
+function TrackenLogo({ className = "tracken-logo-mark", alt = "TRACKEN" }) {
+  return <img className={className} src="/tracken-logo.png" alt={alt} />;
+}
+
 const features = [
   { icon: ClipboardCheck, title: "Smart To-Do", text: "Plan the work that matters and move completed tasks out of the way." },
   { icon: BarChart3, title: "Daily & Weekly Progress", text: "See exactly how consistently you are moving toward your study goals." },
@@ -519,7 +523,7 @@ function App() {
   const toggleTheme = () => setTheme((current) => current === "light" ? "dark" : "light");
 
   if (loadingSession) {
-    return <div className="loading-screen"><div className="loading-logo">TRACKEN<span>.</span></div></div>;
+    return <div className="loading-screen"><div className="loading-logo"><TrackenLogo className="loading-logo-mark" alt="TRACKEN" /></div></div>;
   }
 
   if (session && recoveryMode) {
@@ -560,7 +564,7 @@ function App() {
 
   if (publicPage === "blog-post") {
     if (blogPostLoading || !selectedBlogPost) {
-      return <TaskenErrorBoundary><div className="loading-screen"><div className="loading-logo">TRACKEN<span>.</span></div></div></TaskenErrorBoundary>;
+      return <TaskenErrorBoundary><div className="loading-screen"><div className="loading-logo"><TrackenLogo className="loading-logo-mark" alt="TRACKEN" /></div></div></TaskenErrorBoundary>;
     }
     return <TaskenErrorBoundary><BlogPostPage post={selectedBlogPost} theme={theme} toggleTheme={toggleTheme} onBack={() => navigatePublicPage("blog")} onLogin={() => setAuthView("login")} onRegister={() => setAuthView("register")} onContact={() => navigatePublicPage("contact")} onNavigate={navigatePublicPage} /></TaskenErrorBoundary>;
   }
@@ -732,7 +736,7 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
               <div className="home-product-bar"><div><i></i><i></i><i></i></div><span>TRACKEN · COMMAND CENTER</span><small><b></b> PERSONAL PROGRESS OS</small></div>
               <div className="home-product-body home-product-body-v4">
                 <aside className="home-product-sidebar-v4">
-                  <div className="home-mini-brand">T<span>.</span></div>
+                  <div className="home-mini-brand"><TrackenLogo className="home-mini-brand-logo" alt="TRACKEN" /></div>
                   {[LayoutDashboard,ListChecks,BookOpen,Target,Flame,Timer,WalletCards,BarChart3].map((Icon,i)=><div key={i} className={i===0?"active":""}><Icon size={14}/><span>{["Overview","Tasks","Study","Goals","Habits","Focus","Money","Analytics"][i]}</span></div>)}
                 </aside>
                 <div className="home-product-main home-product-main-v4">
@@ -767,7 +771,7 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
           <div className="home-product-showcase-v4">
             <div className="showcase-topbar"><span>TRACKEN / OVERVIEW</span><div><i></i><i></i><i></i></div><b>LIVE PRODUCT PREVIEW</b></div>
             <div className="showcase-body">
-              <aside><div className="showcase-brand">TRACKEN<span>.</span><small>PERSONAL PROGRESS OS</small></div>{featureRows.map(([name,sub,Icon])=><button key={name} className={activeDemo===name||((activeDemo==="Money"&&name==="Money"))?"active":""} onClick={()=>setActiveDemo(name)}><Icon size={14}/><span>{name}<small>{sub.split(" · ")[0]}</small></span></button>)}</aside>
+              <aside><div className="showcase-brand"><TrackenLogo className="showcase-brand-logo" alt="TRACKEN" /><small>PERSONAL PROGRESS OS</small></div>{featureRows.map(([name,sub,Icon])=><button key={name} className={activeDemo===name||((activeDemo==="Money"&&name==="Money"))?"active":""} onClick={()=>setActiveDemo(name)}><Icon size={14}/><span>{name}<small>{sub.split(" · ")[0]}</small></span></button>)}</aside>
               <div className="showcase-content">
                 <div className="showcase-head"><div><span>{active.eyebrow}</span><h3>{active.title}</h3><p>{active.text}</p></div><div className="showcase-score"><strong>{active.stat}</strong><small>{active.label}</small></div></div>
                 <div className="showcase-grid">
@@ -812,7 +816,7 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
         <section className="landing-final-cta home-final home-final-v4 home-reveal"><div className="home-final-orb" aria-hidden="true"></div><div className="landing-section-kicker">START WITH ONE THING</div><h2>Your progress<br/><em>deserves to be seen.</em></h2><p>You do not need to organise your whole life on day one. Start with the part you want to make clearer — then build from there.</p><button className="landing-primary home-primary" onClick={onRegister}>Start Tracking <ArrowRight size={18}/></button><small>No complicated setup. Just a clearer place to begin.</small></section>
       </main>
 
-      <footer className="landing-footer-v2 landing-footer-v4"><div><div className="landing-footer-brand">TRACKEN<span>.</span></div><small>PERSONAL PROGRESS OS</small><p>Track what matters. Understand your patterns. Keep moving.</p></div><div className="landing-footer-links"><a href="#features">Features</a><button onClick={()=>onNavigate("about")}>About</button><button onClick={onContact}>Contact</button><button onClick={onBlog}>Blog</button></div><div className="landing-footer-policies"><button onClick={()=>onNavigate("privacy")}>Privacy Policy</button><button onClick={()=>onNavigate("terms")}>Terms</button><button onClick={()=>onNavigate("disclaimer")}>Disclaimer</button><button onClick={()=>onNavigate("cookies")}>Cookie Policy</button><button onClick={()=>onNavigate("advertising")}>Advertising</button></div><div className="landing-footer-bottom"><span>TRACKEN by MMD</span><span>Personal Progress OS</span></div></footer>
+      <footer className="landing-footer-v2 landing-footer-v4"><div><div className="landing-footer-brand"><TrackenLogo className="footer-logo-mark" alt="TRACKEN" />TRACKEN<span>.</span></div><small>PERSONAL PROGRESS OS</small><p>Track what matters. Understand your patterns. Keep moving.</p></div><div className="landing-footer-links"><a href="#features">Features</a><button onClick={()=>onNavigate("about")}>About</button><button onClick={onContact}>Contact</button><button onClick={onBlog}>Blog</button></div><div className="landing-footer-policies"><button onClick={()=>onNavigate("privacy")}>Privacy Policy</button><button onClick={()=>onNavigate("terms")}>Terms</button><button onClick={()=>onNavigate("disclaimer")}>Disclaimer</button><button onClick={()=>onNavigate("cookies")}>Cookie Policy</button><button onClick={()=>onNavigate("advertising")}>Advertising</button></div><div className="landing-footer-bottom"><span>TRACKEN by MMD</span><span>Personal Progress OS</span></div></footer>
     </div>
   );
 }
@@ -830,7 +834,7 @@ function DashboardPreview() {
       </div>
       <div className="real-dashboard-preview">
         <aside className="preview-sidebar">
-          <div className="preview-brand">TRACKEN<span>.</span><small>COMMAND CENTER</small></div>
+          <div className="preview-brand"><TrackenLogo className="preview-brand-logo" alt="TRACKEN" /><small>COMMAND CENTER</small></div>
           <div className="preview-nav">{nav.map(([Icon,label,active])=><div key={label} className={`preview-nav-item ${active?"active":""}`}><Icon size={12}/>{label}</div>)}</div>
           <div className="preview-sidebar-bottom"><div className="preview-avatar">Y</div><span>Yash<small>Just building myself</small></span></div>
         </aside>
@@ -1265,7 +1269,7 @@ function LegalPage({page,theme,toggleTheme,onBack,onLogin,onRegister,onNavigate}
   onNavigate={onNavigate}
 /><main className="legal-main"><div className="legal-hero"><div className="legal-icon"><Icon size={24}/></div><div className="eyebrow"><span></span> {content.kicker}</div><h1>{content.title}</h1><p>{content.intro}</p></div><div className="legal-body">{content.sections.map(([h,t])=><section key={h}><h2>{h}</h2><p>{t}</p></section>)}</div></main><PublicFooter onNavigate={onNavigate}/></div>;
 }
-function PublicFooter({onNavigate}) { return <footer className="footer premium-footer public-footer"><div className="footer-brand-block"><div className="footer-brand">TRACKEN<span>.</span></div><div className="footer-byline">by MMD</div><p>© 2026 TRACKEN. Built for better study days.</p></div><div className="footer-links footer-policy-links"><button onClick={()=>onNavigate("about")}>About</button><button onClick={()=>onNavigate("privacy")}>Privacy Policy</button><button onClick={()=>onNavigate("terms")}>Terms &amp; Conditions</button><button onClick={()=>onNavigate("cookies")}>Cookie Policy</button><button onClick={()=>onNavigate("disclaimer")}>Disclaimer</button><button onClick={()=>onNavigate("advertising")}>Advertising</button></div><div className="footer-adsense-note"><ShieldCheck size={15}/><span>Privacy-first experience with clear advertising and content disclosures.</span></div></footer>; }
+function PublicFooter({onNavigate}) { return <footer className="footer premium-footer public-footer"><div className="footer-brand-block"><div className="footer-brand"><TrackenLogo className="footer-logo-mark" alt="TRACKEN" />TRACKEN<span>.</span></div><div className="footer-byline">by MMD</div><p>© 2026 TRACKEN. Built for better study days.</p></div><div className="footer-links footer-policy-links"><button onClick={()=>onNavigate("about")}>About</button><button onClick={()=>onNavigate("privacy")}>Privacy Policy</button><button onClick={()=>onNavigate("terms")}>Terms &amp; Conditions</button><button onClick={()=>onNavigate("cookies")}>Cookie Policy</button><button onClick={()=>onNavigate("disclaimer")}>Disclaimer</button><button onClick={()=>onNavigate("advertising")}>Advertising</button></div><div className="footer-adsense-note"><ShieldCheck size={15}/><span>Privacy-first experience with clear advertising and content disclosures.</span></div></footer>; }
 
 function AuthPage({ mode, setMode, theme, toggleTheme, onBack }) {
   const [fullName, setFullName] = useState("");
@@ -1757,7 +1761,7 @@ function Dashboard({ session, theme, toggleTheme, onLogout }) {
   return (
     <div className={`command-center tracken-command-center tasken-app-shell ${sidebarCollapsed ? "sidebar-is-collapsed" : ""} ${mobileSidebarOpen ? "mobile-sidebar-is-open" : ""}`}>
       <aside className="tasken-sidebar tracken-sidebar">
-        <div className="sidebar-brand"><div className="sidebar-brand-copy"><div className="brand">TRACKEN<span>.</span></div><span>PERSONAL PROGRESS OS</span></div><button className="sidebar-collapse" onClick={toggleSidebar} aria-label="Toggle sidebar">{sidebarCollapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}</button></div>
+        <div className="sidebar-brand"><div className="sidebar-brand-copy"><TrackenLogo className="sidebar-logo-mark" alt="TRACKEN" /><div className="brand">TRACKEN<span>.</span></div><span>PERSONAL PROGRESS OS</span></div><button className="sidebar-collapse" onClick={toggleSidebar} aria-label="Toggle sidebar">{sidebarCollapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}</button></div>
         <nav className="sidebar-nav">
           <button className="sidebar-item active"><LayoutDashboard size={18} /><span className="sidebar-item-label">Overview</span></button>
           <div className="sidebar-section-label">TRACK</div>
@@ -1786,7 +1790,7 @@ function Dashboard({ session, theme, toggleTheme, onLogout }) {
         <div className="tracken-content">
           {error && <div className="dashboard-error"><Info size={16} />{error}<button onClick={() => setError("")}>×</button></div>}
           <section className="tracken-hero"><div><span className="eyebrow">{timeGreeting}, {name.split(" ")[0]} <Sparkles size={14} /></span><h1>Your progress, <em>in one place.</em></h1><p>Track what matters. Understand your patterns. Build momentum every day.</p></div><div className="hero-score"><div className="score-orbit" style={{"--score-progress": `${score}%`}}><strong>{score}</strong><span>/100</span></div><div className="hero-score-copy"><span>TRACKEN SCORE · LIVE</span><b>{scoreLabel}</b><small>Calculated from today's execution, study, goals, habits and focus.</small><div className="hero-score-meta"><span>Execution {taskProgress}%</span><span>Study {studyScore}%</span><span>Consistency {consistencyScore}%</span></div></div></div></section>
-          <section className="tracken-kpis"><div className="kpi-card"><span>Tasks today</span><strong>{completedTasks.length}<small> / {selectedTasks.length || 0}</small></strong><div className="kpi-progress"><i style={{width:`${taskProgress}%`}} /></div><small>{taskProgress}% complete</small></div><div className="kpi-card"><span>Study today</span><strong>{Math.floor(record.lecture_minutes/60)}<small>h {record.lecture_minutes%60}m</small></strong><small>{Math.floor(weeklyStudyMinutes/60)}h {weeklyStudyMinutes%60}m this week</small></div><div className="kpi-card"><span>Focus today</span><strong>{formatTime(trackedSeconds)}</strong><small>{timeRunning ? "Timer running now" : "Ready when you are"}</small></div><div className="kpi-card accent-kpi"><span>Goal progress</span><strong>{goalProgress}<small>%</small></strong><small>{topGoal ? topGoal.title : "Create your first goal"}</small></div></section>
+          <section className="tracken-kpis"><div className="kpi-card"><span>Tasks today</span><strong>{completedTasks.length}<small> / {selectedTasks.length || 0}</small></strong><div className="kpi-progress"><i style={{width:`${taskProgress}%`}} /></div><small>{taskProgress}% complete</small></div><div className="kpi-card"><span>Study today</span><strong>{Math.floor(record.lecture_minutes/60)}h {record.lecture_minutes%60}m</strong><small>{Math.floor(weeklyStudyMinutes/60)}h {weeklyStudyMinutes%60}m this week</small></div><div className="kpi-card"><span>Focus today</span><strong>{formatTime(trackedSeconds)}</strong><small>{timeRunning ? "Timer running now" : "Ready when you are"}</small></div><div className="kpi-card accent-kpi"><span>Goal progress</span><strong>{goalProgress}<small>%</small></strong><small>{topGoal ? topGoal.title : "Create your first goal"}</small></div></section>
           <section className="tracken-command-strip">
             <div className="command-glance-row">
               <article className="command-score-card">
@@ -2334,7 +2338,7 @@ function TrackerHubPage({ initialTab="tasks", session, theme, toggleTheme, tasks
     );
   };
   return <div className="tracker-page-shell">
-    <header className="tracker-page-topbar"><div className="tracker-page-brand"><button className="back-button" onClick={onBack}><ArrowLeft size={17}/></button><div><span>TRACKEN</span><small>PERSONAL PROGRESS OS</small></div></div><div className="tracker-page-actions"><button className="dashboard-theme-button theme-control" onClick={toggleTheme} aria-label="Toggle dark mode" title="Toggle dark mode">{theme==="light"?<Moon size={18}/>:<Sun size={18}/>}<span>{theme==="light"?"Dark mode":"Light mode"}</span></button></div></header>
+    <header className="tracker-page-topbar"><div className="tracker-page-brand"><button className="back-button" onClick={onBack}><ArrowLeft size={17}/></button><div className="tracker-page-brand-logo-wrap"><span>TRACKEN</span><small>PERSONAL PROGRESS OS</small></div></div><div className="tracker-page-actions"><button className="dashboard-theme-button theme-control" onClick={toggleTheme} aria-label="Toggle dark mode" title="Toggle dark mode">{theme==="light"?<Moon size={18}/>:<Sun size={18}/>}<span>{theme==="light"?"Dark mode":"Light mode"}</span></button></div></header>
     <div className="tracker-page-body"><aside className="tracker-subnav"><div className="tracker-subnav-kicker">TRACK CENTER</div>{visibleTabs.map(([id,Icon,label])=><button key={id} className={tab===id?"active":""} onClick={()=>setTab(id)}><Icon size={17}/><span>{label}</span>{id==="tasks"&&<small>{todayTasks.filter(t=>t.status!=="completed").length}</small>}</button>)}<div className="tracker-subnav-footer"><span>TRACKEN SCORE</span><strong>{Math.min(100,Math.round((done/Math.max(todayTasks.length,1))*60+(Math.min(studyMinutes/900,1)*40)))}</strong><small>Activity-based</small></div></aside>
       <main className="tracker-workspace">{tab!=="goals"&&tab!=="budget"&&<div className="tracker-heading"><div><span className="card-kicker">TRACK CENTER</span><h1>{title}</h1><p>{tab==="money"?"Know where your money goes.":tab==="investments"?"Keep your portfolio visible.":tab==="networth"?"See your financial position at a glance.":tab==="productivity"?"Turn goals, tasks and time into an execution system.":tab==="streak"?"Your study consistency, summarized in one clear view.":"One system for the work that moves you forward."}</p></div><span className="tracker-date">{new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})}</span></div>}
       {tab==="runway"&&<section className="runway-engine">
@@ -2754,7 +2758,7 @@ function WeeklyReviewPage({ session, theme, toggleTheme, tasks, history, goals, 
   const strongest = completion >= 80 ? 'Execution' : studyMinutes >= 300 ? 'Study' : habitDone >= 5 ? 'Consistency' : 'Momentum';
   const next = completion < 70 ? 'Close two high-priority tasks before adding new work.' : studyMinutes < 300 ? 'Protect one uninterrupted study block tomorrow.' : habitDone < 5 ? 'Use one small habit to keep the chain alive.' : 'Keep the current rhythm and raise the quality bar slightly.';
   return <div className="review-shell">
-    <header className="review-topbar"><div className="tracker-page-brand"><button className="back-button" onClick={onBack}><ArrowLeft size={17}/></button><div><span>TRACKEN</span><small>WEEKLY REVIEW</small></div></div><div className="tracker-page-actions"><button className="dashboard-theme-button theme-control" onClick={toggleTheme} aria-label="Toggle dark mode" title="Toggle dark mode">{theme==='light'?<Moon size={17}/>:<Sun size={17}/>}<span>{theme==='light'?"Dark mode":"Light mode"}</span></button></div></header>
+    <header className="review-topbar"><div className="tracker-page-brand"><button className="back-button" onClick={onBack}><ArrowLeft size={17}/></button><div className="tracker-page-brand-logo-wrap"><span>TRACKEN</span><small>WEEKLY REVIEW</small></div></div><div className="tracker-page-actions"><button className="dashboard-theme-button theme-control" onClick={toggleTheme} aria-label="Toggle dark mode" title="Toggle dark mode">{theme==='light'?<Moon size={17}/>:<Sun size={17}/>}<span>{theme==='light'?"Dark mode":"Light mode"}</span></button></div></header>
     <main className="review-workspace"><div className="review-heading"><div><span className="card-kicker">WEEKLY REVIEW · {weekStart.toLocaleDateString('en-US',{month:'short',day:'numeric'})} — {now.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span><h1>Turn activity into <em>direction.</em></h1><p>A concise read of what you actually did, where momentum came from, and what deserves attention next.</p></div><div className="review-score"><span>TRACKEN SCORE</span><strong>{score}</strong><small>current momentum</small></div></div>
     <section className="review-card review-automation-card"><div className="review-card-head"><div><span className="card-kicker">AUTOMATION CENTER · 05</span><h2>Automatic reviews.</h2><p>TRACKEN prepares a daily and weekly reflection from your actual activity. It runs when the app opens after a period closes.</p></div><Sparkles size={20}/></div><div className="review-automation-controls"><label><input type="checkbox" checked={reviewAutomation?.daily!==false} onChange={e=>setReviewAutomation(v=>({...v,daily:e.target.checked}))}/> Daily review</label><label><input type="checkbox" checked={reviewAutomation?.weekly!==false} onChange={e=>setReviewAutomation(v=>({...v,weekly:e.target.checked}))}/> Weekly review</label><button className="primary-small" onClick={onGenerateReviews}><RotateCcw size={14}/> Generate latest</button></div><div className="review-automation-note"><Clock3 size={14}/> Daily reviews summarize the previous day. Weekly reviews summarize the previous Monday–Sunday cycle. Existing reviews are never duplicated.</div></section>
     <section className="review-stat-grid"><ReviewStat label="Task execution" value={`${completion}%`} meta={`${done}/${weekTasks.length} completed`}/><ReviewStat label="Study output" value={formatReviewMinutes(studyMinutes)} meta={`${questions} questions`}/><ReviewStat label="Focus" value={`${focus}m`} meta={`${completedFocusSessions} sessions total`}/><ReviewStat label="Active days" value={activeDays} meta={`${habitDone} habits completed`}/></section>
@@ -2864,7 +2868,7 @@ function AnalyticsPage({ session, theme, toggleTheme, history, tasks, goals, onB
     <div className="analytics-page-shell tasken-app-shell">
       <aside className="analytics-side-rail">
         <button className="back-link" onClick={onBack}><ArrowLeft size={16}/> Back to dashboard</button>
-        <div className="subpage-brand"><div className="brand">TRACKEN<span>.</span></div><span>INTELLIGENCE</span></div>
+        <div className="subpage-brand"><div><div className="brand">TRACKEN<span>.</span></div><span>INTELLIGENCE</span></div></div>
         <div className="analytics-side-card">
           <div className="analytics-side-icon"><Sparkles size={22}/></div>
           <strong>Turn activity into decisions.</strong>
@@ -3019,7 +3023,7 @@ function UpdatesPage({ session, theme, toggleTheme, onBack, onUnreadChange = () 
 
   return (
     <div className="subpage-shell tasken-app-shell">
-      <aside className="subpage-side-rail"><button className="back-link" onClick={onBack}><ArrowLeft size={16} /> Back to dashboard</button><div className="subpage-brand"><div className="brand">TRACKEN<span>.</span></div><span>UPDATES</span></div><div className="subpage-side-note"><Bell size={20} /><strong>Stay in the loop.</strong><p>Official notices and important messages from TRACKEN appear here.</p></div></aside>
+      <aside className="subpage-side-rail"><button className="back-link" onClick={onBack}><ArrowLeft size={16} /> Back to dashboard</button><div className="subpage-brand"><div><div className="brand">TRACKEN<span>.</span></div><span>UPDATES</span></div></div><div className="subpage-side-note"><Bell size={20} /><strong>Stay in the loop.</strong><p>Official notices and important messages from TRACKEN appear here.</p></div></aside>
       <div className="subpage-main">
         <header className="subpage-topbar"><div><span className="card-kicker">TRACKEN UPDATES</span><h1>Updates & notices</h1></div><div className="subpage-actions"><button className="dashboard-theme-button theme-control" onClick={toggleTheme} aria-label="Toggle dark mode" title="Toggle dark mode"><Moon size={17} /><span>{theme === "light" ? "Dark mode" : "Light mode"}</span></button><button className="secondary-cta compact-cta" onClick={onBack}>Dashboard <ArrowRight size={16} /></button></div></header>
         <main className="subpage-content">
@@ -3540,7 +3544,7 @@ function AdminPage({ session, theme, toggleTheme, onBack }) {
 
   return (
     <div className="subpage-shell tasken-app-shell admin-page-shell">
-      <aside className="subpage-side-rail admin-rail"><button className="back-link" onClick={onBack}><ArrowLeft size={16} /> Back to dashboard</button><div className="subpage-brand"><div className="brand">TRACKEN<span>.</span></div><span>ADMIN CENTER</span></div><div className="subpage-side-note admin-note"><ShieldCheck size={20} /><strong>Owner controls.</strong><p>Send official updates and review platform-wide study activity.</p></div></aside>
+      <aside className="subpage-side-rail admin-rail"><button className="back-link" onClick={onBack}><ArrowLeft size={16} /> Back to dashboard</button><div className="subpage-brand"><div><div className="brand">TRACKEN<span>.</span></div><span>ADMIN CENTER</span></div></div><div className="subpage-side-note admin-note"><ShieldCheck size={20} /><strong>Owner controls.</strong><p>Send official updates and review platform-wide study activity.</p></div></aside>
       <div className="subpage-main">
         <header className="subpage-topbar"><div><span className="card-kicker">ADMIN CENTER</span><h1>Run TRACKEN.</h1></div><div className="subpage-actions"><button className="dashboard-theme-button theme-control" onClick={toggleTheme} aria-label="Toggle dark mode" title="Toggle dark mode"><Moon size={17} /><span>{theme === "light" ? "Dark mode" : "Light mode"}</span></button><button className="secondary-cta compact-cta" onClick={onBack}>Dashboard <ArrowRight size={16} /></button></div></header>
         <main className="subpage-content">

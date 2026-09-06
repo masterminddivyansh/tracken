@@ -12844,3 +12844,59 @@ button { -webkit-tap-highlight-color: transparent; }
 [data-theme="dark"] .contact-inbox-row.is-unread{background:color-mix(in srgb,#7666ff 8%,var(--surface));border-color:rgba(118,102,255,.28)}
 [data-theme="dark"] .contact-message-detail{background:var(--surface)}
 @media (max-width:700px){.contact-inbox-row{grid-template-columns:8px minmax(0,1fr);padding:13px 11px}.contact-inbox-row time{display:none}.contact-message-detail-actions{flex-wrap:wrap}.contact-message-detail-actions>*{flex:1;text-align:center}.contact-inbox-count{align-self:flex-start}}
+
+/* TRACKEN v17 — unified supplied brand mark */
+.tracken-logo-mark{display:block;object-fit:contain;object-position:center;flex:0 0 auto}
+.loading-logo{display:flex;align-items:center;justify-content:center}
+.loading-logo-mark{width:58px;height:58px}
+.home-mini-brand-logo{width:28px;height:28px}
+.showcase-brand{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.showcase-brand-logo{width:42px;height:42px}
+.preview-brand{display:flex;align-items:center;gap:8px}
+.preview-brand-logo{width:30px;height:30px}
+.footer-logo-mark{width:34px;height:34px;display:inline-block;vertical-align:middle;margin-right:8px}
+.brand-with-logo{display:inline-flex!important;align-items:center;gap:9px}
+.inline-brand-logo{width:30px;height:30px}
+.tracker-page-brand-logo-wrap{display:grid;grid-template-columns:32px auto;grid-template-rows:auto auto;column-gap:9px;align-items:center}
+.tracker-page-brand-logo-wrap .subpage-logo-mark{grid-row:1 / span 2;width:32px;height:32px}
+.tracker-page-brand-logo-wrap span{grid-column:2;font-weight:800;line-height:1}
+.tracker-page-brand-logo-wrap small{grid-column:2}
+.subpage-brand{display:flex!important;align-items:center;gap:10px}
+.subpage-brand>.subpage-logo-mark{width:36px;height:36px;flex:0 0 36px}
+.sidebar-logo-mark{width:34px;height:34px;flex:0 0 34px}
+
+/* Sidebar rail: use the supplied mark instead of the old T tile, including collapsed mode. */
+.tasken-sidebar .sidebar-brand-copy{display:flex;align-items:center;gap:9px}
+.tasken-sidebar .sidebar-brand-copy .sidebar-logo-mark{display:block}
+.tasken-app-shell.sidebar-is-collapsed .tasken-sidebar .sidebar-brand-copy{display:flex!important;align-items:center;justify-content:center;width:38px;height:38px;overflow:hidden;background:transparent!important;box-shadow:none!important;border-radius:10px}
+.tasken-app-shell.sidebar-is-collapsed .tasken-sidebar .sidebar-logo-mark{width:38px!important;height:38px!important;display:block!important;flex:0 0 38px!important}
+.tasken-app-shell.sidebar-is-collapsed .tasken-sidebar .sidebar-brand-copy .brand,
+.tasken-app-shell.sidebar-is-collapsed .tasken-sidebar .sidebar-brand-copy>span{display:none!important}
+.tasken-app-shell.sidebar-is-collapsed .tasken-sidebar .sidebar-brand{justify-content:center!important}
+
+/* Remove the old dark-mode inversion from the supplied purple logo. */
+[data-theme="dark"] .landing-brand-logo{filter:none!important}
+
+/* The public 404 is intentionally a server-level page on GitHub Pages. */
+.tracken-logo-mark,.landing-brand-logo{object-fit:contain!important;border-radius:0!important}
+
+
+/* TRACKEN v18 — dashboard branding + KPI refinement */
+.tracken-command-center .sidebar-brand-copy .sidebar-logo-mark{display:none!important}
+.tracken-command-center.sidebar-is-collapsed .sidebar-brand-copy{display:flex!important;align-items:center;justify-content:center;width:38px;height:38px;overflow:hidden;background:transparent!important;box-shadow:none!important;border-radius:10px}
+.tracken-command-center.sidebar-is-collapsed .sidebar-brand-copy .sidebar-logo-mark{display:block!important;width:38px!important;height:38px!important;flex:0 0 38px!important}
+.tracken-command-center.sidebar-is-collapsed .sidebar-brand-copy .brand,
+.tracken-command-center.sidebar-is-collapsed .sidebar-brand-copy>span{display:none!important}
+.tracken-command-center:not(.sidebar-is-collapsed) .sidebar-brand-copy .brand{display:block!important}
+.tracken-command-center:not(.sidebar-is-collapsed) .sidebar-brand-copy>span{display:block!important}
+.tracken-command-center .kpi-card>strong{white-space:nowrap}
+.tracken-command-center .kpi-card:nth-child(2)>strong{font-size:26px;letter-spacing:-.045em}
+@media (max-width:760px){
+  .tracken-command-center .kpi-card:nth-child(2)>strong{font-size:22px;letter-spacing:-.045em}
+}
+/* Dashboard/internal headers use the clean TRACKEN wordmark only. */
+.tracker-page-brand-logo-wrap{display:flex!important;flex-direction:column!important;gap:3px!important;grid-template-columns:none!important;grid-template-rows:none!important}
+.tracker-page-brand-logo-wrap .subpage-logo-mark{display:none!important}
+.subpage-brand>.subpage-logo-mark{display:none!important}
+.profile-topbar .inline-brand-logo{display:none!important}
+.auth-top .inline-brand-logo{display:none!important}
