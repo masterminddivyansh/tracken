@@ -937,9 +937,26 @@ function PublicHeader({ theme, toggleTheme, onLogin, onRegister, onBlog, onConta
 
 function ContactPage({ theme, toggleTheme, onBack, onLogin, onRegister, onBlog, onContact, onNavigate }) {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const update = (field, value) => setForm((current) => ({ ...current, [field]: value }));
-  const submit = (event) => { event.preventDefault(); setSent(true); };
+  const submit = async (event) => {
+    event.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitError("");
+    const payload = { name: form.name.trim(), email: form.email.trim(), subject: form.subject.trim(), message: form.message.trim() };
+    try {
+      const { error } = await supabase.from("contact_messages").insert(payload);
+      if (error) throw error;
+      setSent(true);
+    } catch (err) {
+      setSubmitError(err?.message || "We could not send your message right now. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <div className="contact-page-shell">
       <PublicHeader
@@ -969,14 +986,15 @@ function ContactPage({ theme, toggleTheme, onBack, onLogin, onRegister, onBlog, 
               <div className="contact-form-head"><span className="card-kicker">SEND A MESSAGE</span><h2>What can we help with?</h2><p>Share as much detail as you'd like.</p></div>
               {sent ? (
                 <div className="contact-success">
-                  <div className="contact-success-icon"><Check size={24}/></div><span className="card-kicker">MESSAGE READY</span><h3>Thanks for reaching out.</h3><p>Your message has been prepared successfully. We'll connect the live delivery channel before production launch.</p><button type="button" className="secondary-cta" onClick={() => { setSent(false); setForm({ name:"", email:"", subject:"", message:"" }); }}>Send another message</button>
+                  <div className="contact-success-icon"><Check size={24}/></div><span className="card-kicker">MESSAGE SENT</span><h3>Thanks for reaching out.</h3><p>Your message has been sent to the TRACKEN team. We'll review it and get back to you.</p><button type="button" className="secondary-cta" onClick={() => { setSent(false); setForm({ name:"", email:"", subject:"", message:"" }); }}>Send another message</button>
                 </div>
               ) : (
                 <>
                   <div className="contact-form-grid"><label><span>Your name</span><input value={form.name} onChange={(e)=>update("name",e.target.value)} placeholder="Your name" required /></label><label><span>Email address</span><input type="email" value={form.email} onChange={(e)=>update("email",e.target.value)} placeholder="you@example.com" required /></label></div>
                   <label><span>Subject</span><input value={form.subject} onChange={(e)=>update("subject",e.target.value)} placeholder="What would you like to share?" required /></label>
                   <label><span>Message</span><textarea value={form.message} onChange={(e)=>update("message",e.target.value)} placeholder="Write your message here..." rows="7" required /></label>
-                  <button className="primary-cta contact-submit" type="submit">Send message <ArrowRight size={18}/></button>
+                  {submitError && <div className="contact-submit-error" role="alert">{submitError}</div>}
+                  <button className="primary-cta contact-submit" type="submit" disabled={submitting}>{submitting ? "Sending…" : "Send message"} <ArrowRight size={18}/></button>
                 </>
               )}
             </form>
@@ -3112,6 +3130,9 @@ function AdminPage({ session, theme, toggleTheme, onBack }) {
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [galleryCaption, setGalleryCaption] = useState("");
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [contactMessages, setContactMessages] = useState([]);
+  const [selectedContactMessage, setSelectedContactMessage] = useState(null);
+  const [contactSearch, setContactSearch] = useState("");
 
   const adminLoadInFlight = useRef(false);
   const loadAdminData = async (showInitialLoader = false) => {
@@ -3120,7 +3141,7 @@ function AdminPage({ session, theme, toggleTheme, onBack }) {
     if (showInitialLoader) setLoading(true);
     setError("");
     try {
-      const [usersRes, recordsRes, tasksRes, goalsRes, stateRes, historyRes, blogRes, galleryRes] = await Promise.all([
+      const [usersRes, recordsRes, tasksRes, goalsRes, stateRes, historyRes, blogRes, galleryRes, contactRes] = await Promise.all([
         supabase.rpc("admin_list_users"),
         supabase.from("daily_records").select("*").order("record_date", { ascending: false }).limit(5000),
         supabase.from("tasks").select("*").limit(5000),
@@ -3128,9 +3149,10 @@ function AdminPage({ session, theme, toggleTheme, onBack }) {
         supabase.from("user_app_state").select("user_id,money,investments,assets,liabilities,habits,focus_sessions,tracked_seconds").limit(5000),
         supabase.from("updates").select("*").order("created_at", { ascending: false }).limit(1000),
         supabase.from("blog_posts").select("*").order("created_at", { ascending: false }).limit(1000),
-        supabase.from("journal_gallery").select("*").order("created_at", { ascending: false }).limit(500)
+        supabase.from("journal_gallery").select("*").order("created_at", { ascending: false }).limit(500),
+        supabase.from("contact_messages").select("*").order("created_at", { ascending: false }).limit(500)
       ]);
-      const firstError = [usersRes, recordsRes, tasksRes, goalsRes, stateRes, historyRes, blogRes, galleryRes].find((res) => res.error);
+      const firstError = [usersRes, recordsRes, tasksRes, goalsRes, stateRes, historyRes, blogRes, galleryRes, contactRes].find((res) => res.error);
       if (firstError?.error) setError(firstError.error.message);
       if (!usersRes.error) setUsers(usersRes.data || []);
       if (!recordsRes.error) setRecords(recordsRes.data || []);
@@ -3140,6 +3162,7 @@ function AdminPage({ session, theme, toggleTheme, onBack }) {
       if (!historyRes.error) setSentHistory((historyRes.data || []).filter((item) => item.created_by === session.user.id));
       if (!blogRes?.error) setBlogPosts(blogRes.data || []);
       if (!galleryRes?.error) setGalleryImages(galleryRes.data || []);
+      if (!contactRes?.error) setContactMessages(contactRes.data || []);
     } catch (err) {
       setError(err?.message || "Could not refresh the Admin Center.");
     } finally {
@@ -3157,6 +3180,7 @@ function AdminPage({ session, theme, toggleTheme, onBack }) {
       .on("postgres_changes", { event: "*", schema: "public", table: "tasks" }, () => loadAdminData(false))
       .on("postgres_changes", { event: "*", schema: "public", table: "goals" }, () => loadAdminData(false))
       .on("postgres_changes", { event: "*", schema: "public", table: "updates" }, () => loadAdminData(false))
+      .on("postgres_changes", { event: "*", schema: "public", table: "contact_messages" }, () => loadAdminData(false))
       .subscribe();
     return () => { clearInterval(timer); supabase.removeChannel(channel); };
   }, []);
@@ -3455,6 +3479,23 @@ function AdminPage({ session, theme, toggleTheme, onBack }) {
     setGalleryImages(current=>current.filter(x=>x.id!==item.id));
   };
 
+  const markContactRead = async (item) => {
+    if (!item || item.status === "read") return;
+    const { data, error: markError } = await supabase.from("contact_messages").update({ status: "read", read_at: new Date().toISOString() }).eq("id", item.id).select().single();
+    if (markError) { setError(markError.message); return; }
+    setContactMessages(current => current.map(message => message.id === item.id ? data : message));
+    setSelectedContactMessage(data);
+  };
+  const deleteContactMessage = async (item) => {
+    if (!item || !window.confirm("Delete this contact message? This cannot be undone.")) return;
+    const { error: deleteError } = await supabase.from("contact_messages").delete().eq("id", item.id);
+    if (deleteError) { setError(deleteError.message); return; }
+    setContactMessages(current => current.filter(message => message.id !== item.id));
+    if (selectedContactMessage?.id === item.id) setSelectedContactMessage(null);
+  };
+  const filteredContactMessages = contactMessages.filter((item) => `${item.name || ""} ${item.email || ""} ${item.subject || ""} ${item.message || ""}`.toLowerCase().includes(contactSearch.trim().toLowerCase()));
+  const unreadContactMessages = contactMessages.filter(item => item.status !== "read").length;
+
   const filteredUsers = users.filter((user) => `${user.username || ""} ${user.full_name || ""} ${user.email || ""}`.toLowerCase().includes(search.toLowerCase()));
   const filteredFinanceUsers = users.filter((user) => `${user.username || ""} ${user.full_name || ""} ${user.email || ""}`.toLowerCase().includes(financeSearch.trim().toLowerCase()));
   const totalStudyMinutes = records.reduce((sum, item) => sum + Number(item.lecture_minutes || 0), 0);
@@ -3505,6 +3546,12 @@ function AdminPage({ session, theme, toggleTheme, onBack }) {
         <main className="subpage-content">
           {error && <div className="dashboard-error">{error}</div>}
           <section className="admin-stat-grid"><AdminStat icon={Users} label="Registered accounts" value={users.length} meta={`${activeToday} active today`} /><AdminStat icon={Clock3} label="Total study time" value={`${Math.floor(totalStudyMinutes / 60)}h`} meta={`${totalStudyMinutes % 60}m extra`} /><AdminStat icon={BookOpen} label="Questions solved" value={totalQuestions.toLocaleString()} meta="Across saved records" /><AdminStat icon={Target} label="Active goals" value={activeGoals} meta="Currently in progress" /></section>
+          <section className="admin-panel contact-inbox-panel">
+            <div className="panel-head"><div><span className="card-kicker">CONTACT INBOX</span><h2>Messages from your website</h2><p>Every message submitted through the public Contact page appears here.</p></div><div className="contact-inbox-count"><Send size={18}/><strong>{unreadContactMessages}</strong><span>new</span></div></div>
+            <div className="admin-search"><Search size={16}/><input value={contactSearch} onChange={e=>setContactSearch(e.target.value)} placeholder="Search messages, names, emails…"/></div>
+            {filteredContactMessages.length === 0 ? <div className="admin-empty">{contactMessages.length ? "No messages match your search." : "No contact messages yet."}</div> : <div className="contact-inbox-list">{filteredContactMessages.map(item => <button type="button" key={item.id} className={`contact-inbox-row ${item.status !== "read" ? "is-unread" : ""}`} onClick={() => { setSelectedContactMessage(item); markContactRead(item); }}><span className="contact-message-dot"></span><span className="contact-message-main"><strong>{item.subject || "No subject"}</strong><small>{item.name || "Unknown sender"} · {item.email || "No email"}</small><em>{(item.message || "").replace(/\s+/g," ").slice(0,150)}{(item.message || "").length > 150 ? "…" : ""}</em></span><time>{item.created_at ? new Date(item.created_at).toLocaleDateString("en-US", { month:"short", day:"numeric" }) : ""}</time></button>)}</div>}
+            {selectedContactMessage && <div className="contact-message-detail"><div className="contact-message-detail-head"><div><span className="card-kicker">MESSAGE</span><h3>{selectedContactMessage.subject || "No subject"}</h3><p>{selectedContactMessage.name || "Unknown sender"} · <a href={`mailto:${selectedContactMessage.email || ""}`}>{selectedContactMessage.email || "No email"}</a></p></div><button type="button" className="icon-close" onClick={()=>setSelectedContactMessage(null)} aria-label="Close message"><X size={17}/></button></div><div className="contact-message-body">{selectedContactMessage.message || "No message content."}</div><div className="contact-message-detail-actions"><a className="secondary-cta compact-cta" href={`mailto:${selectedContactMessage.email || ""}?subject=${encodeURIComponent(`Re: ${selectedContactMessage.subject || "Your TRACKEN message"}`)}`}>Reply by email <ArrowRight size={15}/></a><button type="button" className="danger-cta compact-cta" onClick={()=>deleteContactMessage(selectedContactMessage)}>Delete</button></div></div>}
+          </section>
           <section className="admin-panel admin-broadcast-panel">
             <div className="panel-head"><div><span className="card-kicker">BROADCAST</span><h2>Publish an update</h2><p>Send rich content, tables, images or downloadable files to everyone or one account.</p></div><Send size={21}/></div>
             <form className="admin-send-form" onSubmit={sendUpdate}><label><span>Audience</span><select value={target} onChange={e=>setTarget(e.target.value)}><option value="all">Everyone — all registered accounts</option>{users.map(user=><option key={user.id} value={user.id}>{user.username||user.full_name||"Unnamed user"} · {user.email||user.id.slice(0,8)}</option>)}</select></label><label><span>Message type</span><select value={type} onChange={e=>setType(e.target.value)}>{UPDATE_TYPES.map(item=><option key={item}>{item}</option>)}</select></label><label><span>Title</span><input value={title} onChange={e=>setTitle(e.target.value)} placeholder="e.g. TRACKEN 4.2.0 is live"/></label><div className="admin-editor-field"><span>Update</span><RichTextToolbar editorRef={broadcastEditorRef} compact />
