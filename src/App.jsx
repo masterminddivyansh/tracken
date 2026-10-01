@@ -684,9 +684,11 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
           <p>Bring tasks, study, habits, goals, focus and money into one clear system for everyday progress.</p>
           <div className="landing-hero-actions"><button className="landing-primary" onClick={onRegister}>Start Free <ArrowRight size={18}/></button><a className="landing-secondary" href="#product">Explore TRACKEN <ChevronRight size={17}/></a></div>
           <div className="lp-hero-proof"><span><CheckCircle2 size={15}/> Real workflows</span><span><ShieldCheck size={15}/> Personal workspace</span><span><Zap size={15}/> Built for daily use</span></div>
+          <h2><em>90+ Active Users</em></h2>
         </div>
         <div className="lp-hero-stage lp-reveal" ref={stageRef} onMouseMove={onPointerMove} onMouseLeave={resetPointer}>
           <div className="lp-back-window"><div className="lp-window-bar"><TrackenLogo alt="TRACKEN"/><span>PERSONAL PROGRESS OS</span></div><div className="lp-back-lines"><i></i><i></i><i></i></div></div>
+          <div className="lp-desktop-v21-module">
           <div className="lp-main-window">
             <div className="lp-window-bar"><div className="lp-dots"><i></i><i></i><i></i></div><span>TRACKEN · OVERVIEW</span><b>LIVE</b></div>
             <div className="lp-window-body lp-command-dashboard">
@@ -714,6 +716,7 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
           <div className="lp-float lp-float-one"><TrendingUp size={15}/><span>Weekly progress</span><b>+12%</b></div>
           <div className="lp-float lp-float-two"><Check size={15}/><span>Task completed</span><b>Quant practice</b></div>
           <div className="lp-float lp-float-three"><Target size={15}/><span>Goal momentum</span><b>72%</b></div>
+        </div>
         </div>
       </section>
 
@@ -1774,7 +1777,7 @@ function Dashboard({ session, theme, toggleTheme, onLogout }) {
           <section className="tracken-v4-today">
             <div className="tracken-v4-today-copy">
               <span className="tracken-v2-kicker">{timeGreeting}</span>
-              <h1>Make today count.</h1>
+              <h1>Make today <em>count.</em></h1>
               <p>{todoTasks.length ? `${todoTasks.length} ${todoTasks.length===1?"important thing":"important things"} still need you.` : "Your day is clear. Use it well."}</p>
               <div className="tracken-v4-today-actions">
                 <button onClick={()=>{setShowTaskInput(true);window.setTimeout(()=>document.querySelector('.tracken-v2-add-task input')?.focus(),0)}}><Plus size={16}/> Add task</button>
@@ -1794,20 +1797,28 @@ function Dashboard({ session, theme, toggleTheme, onLogout }) {
           </section>
           <div className="tracken-v4-signal-strip" aria-label="Today's progress summary">
             <div className="tracken-v4-signal-box">
+              <span className="tracken-v4-module-label">TASKS TODAY</span>
               <strong>{tasks.filter(t=>t.task_date===todayHabitKey && t.status==="completed").length}/{tasks.filter(t=>t.task_date===todayHabitKey).length}</strong>
-              <span>Tasks</span>
+              <div className="tracken-v4-module-bar"><i style={{width:`${tasks.filter(t=>t.task_date===todayHabitKey).length ? Math.min(100,(tasks.filter(t=>t.task_date===todayHabitKey && t.status==="completed").length/tasks.filter(t=>t.task_date===todayHabitKey).length)*100) : 0}%`}}/></div>
+              <small>{tasks.filter(t=>t.task_date===todayHabitKey).length ? Math.round((tasks.filter(t=>t.task_date===todayHabitKey && t.status==="completed").length/tasks.filter(t=>t.task_date===todayHabitKey).length)*100) : 0}% complete</small>
             </div>
             <div className="tracken-v4-signal-box">
+              <span className="tracken-v4-module-label">STUDY TODAY</span>
               <strong>{Math.floor(Number(record.lecture_minutes||0)/60)}h {Number(record.lecture_minutes||0)%60}m</strong>
-              <span>Study</span>
+              <div className="tracken-v4-module-bar"><i style={{width:`${Math.min(100,(Number(record.lecture_minutes||0)/240)*100)}%`}}/></div>
+              <small>{Math.min(100,Math.round((Number(record.lecture_minutes||0)/240)*100))}% of 4h target</small>
             </div>
             <div className="tracken-v4-signal-box">
+              <span className="tracken-v4-module-label">HABITS TODAY</span>
               <strong>{activeHabitsToday.filter(h=>habitDoneToday(h)).length}/{activeHabitsToday.length || 0}</strong>
-              <span>Habits</span>
+              <div className="tracken-v4-module-bar"><i style={{width:`${activeHabitsToday.length ? Math.min(100,(activeHabitsToday.filter(h=>habitDoneToday(h)).length/activeHabitsToday.length)*100) : 0}%`}}/></div>
+              <small>{activeHabitsToday.length ? Math.round((activeHabitsToday.filter(h=>habitDoneToday(h)).length/activeHabitsToday.length)*100) : 0}% complete</small>
             </div>
             <div className="tracken-v4-signal-box">
+              <span className="tracken-v4-module-label">GOAL PROGRESS</span>
               <strong>{goalProgress}%</strong>
-              <span>Goal</span>
+              <div className="tracken-v4-module-bar"><i style={{width:`${Math.max(0,Math.min(100,goalProgress))}%`}}/></div>
+              <small>{topGoal?.title || "Stay consistent"}</small>
             </div>
           </div>
 
