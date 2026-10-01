@@ -14832,7 +14832,7 @@ button { -webkit-tap-highlight-color: transparent; }
 .lp-hero-copy h1 em,.lp-hero-copy h2 em{color:var(--accent);font-style:normal}
 .lp-hero-copy p{max-width:600px;color:var(--muted);font-size:18px;line-height:1.7;margin:0}
 .lp-hero-proof{display:flex;flex-wrap:wrap;gap:16px;margin-top:27px;color:var(--muted);font-size:11px;font-weight:750}
-.lp-hero-proof span{display:inline-flex;align-items:center;gap:7px}.lp-hero-proof svg{color:var(--accent)}
+.lp-hero-proof span{display:inline-flex;align-items:center;gap:7px}.lp-hero-proof svg{color:var(--accent)}.lp-mobile-users{display:none}
 .lp-hero-stage{position:relative;min-height:620px;transform:perspective(1400px) rotateX(var(--lp-rx,0deg)) rotateY(var(--lp-ry,0deg));transition:transform .18s ease-out;z-index:2}
 .lp-main-window{position:absolute;right:1%;top:8%;width:88%;min-height:510px;border:1px solid color-mix(in srgb,var(--line) 75%,var(--accent) 25%);border-radius:28px;background:linear-gradient(145deg,var(--surface-solid),var(--surface) 65%,var(--accent-soft));box-shadow:0 45px 100px rgba(35,31,80,.18),0 10px 28px rgba(35,31,80,.08);overflow:hidden;transform:translate3d(var(--lp-mx),var(--lp-my),0);transition:transform .22s ease-out}
 .lp-back-window{position:absolute;left:3%;top:3%;width:87%;height:82%;border-radius:26px;border:1px solid var(--line);background:var(--surface);opacity:.62;transform:translate(-3%,8%) scale(.97);box-shadow:0 30px 70px rgba(35,31,80,.08)}
@@ -15776,3 +15776,275 @@ button { -webkit-tap-highlight-color: transparent; }
   .tracken-v4-signal-box .tracken-v4-module-label{font-size:9px!important;margin-bottom:11px!important}
 }
 [data-theme="dark"] .tracken-v4-module-bar{background:color-mix(in srgb,var(--accent-soft) 52%,var(--line) 48%)}
+
+
+/* =========================================================
+   TRACKEN 23.0.6 — TASK SPACING + MOBILE PRODUCT MODULE
+   Built directly on 23.0.5.
+   ========================================================= */
+
+/* Tasks page: clearly separate Plan Ahead and Upcoming cards. */
+.task-upcoming-card{
+  margin-bottom:18px!important;
+}
+.task-upcoming-list-card{
+  margin-top:0!important;
+}
+
+/* Mobile homepage: show the real V21 command-center module.
+   The JSX already contains the real module; previous CSS was hiding it. */
+@media (max-width:767px){
+  .lp-mobile-v20-module{
+    display:none!important;
+  }
+
+  .lp-desktop-v21-module{
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    position:relative!important;
+    z-index:5!important;
+  }
+
+  .lp-page .lp-hero-stage{
+    display:block!important;
+    width:100%!important;
+    min-height:0!important;
+    height:auto!important;
+    padding-top:0!important;
+    padding-bottom:0!important;
+    margin-top:8px!important;
+  }
+
+  .lp-page .lp-main-window{
+    position:relative!important;
+    top:auto!important;
+    right:auto!important;
+    left:auto!important;
+    width:100%!important;
+    min-height:560px!important;
+    height:auto!important;
+    margin:0!important;
+    border-radius:20px!important;
+    transform:none!important;
+    overflow:hidden!important;
+  }
+
+  .lp-page .lp-window-body.lp-command-dashboard{
+    display:grid!important;
+    grid-template-columns:48px minmax(0,1fr)!important;
+    height:auto!important;
+    min-height:516px!important;
+  }
+
+  .lp-page .lp-command-sidebar{
+    min-width:0!important;
+    padding:12px 5px!important;
+  }
+
+  .lp-page .lp-command-sidebar>img{
+    width:30px!important;
+    height:20px!important;
+    margin:2px auto 12px!important;
+  }
+
+  .lp-page .lp-command-sidebar span{
+    justify-content:center!important;
+    padding:8px 4px!important;
+  }
+
+  .lp-page .lp-command-sidebar span small{
+    display:none!important;
+  }
+
+  .lp-page .lp-command-main{
+    min-width:0!important;
+    padding:13px!important;
+    overflow:hidden!important;
+  }
+
+  .lp-page .lp-command-topline{
+    gap:8px!important;
+  }
+
+  .lp-page .lp-command-topline strong{
+    font-size:16px!important;
+    line-height:1.05!important;
+  }
+
+  .lp-page .lp-command-topline p{
+    font-size:6.5px!important;
+    line-height:1.35!important;
+  }
+
+  .lp-page .lp-command-avatar{
+    width:27px!important;
+    height:27px!important;
+    font-size:9px!important;
+  }
+
+  .lp-page .lp-command-metrics{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px!important;
+    margin-top:10px!important;
+  }
+
+  .lp-page .lp-command-metric{
+    padding:9px!important;
+    border-radius:11px!important;
+  }
+
+  .lp-page .lp-command-metric strong{
+    font-size:17px!important;
+  }
+
+  .lp-page .lp-command-metric span{
+    font-size:5.5px!important;
+  }
+
+  .lp-page .lp-command-grid{
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+    margin-top:7px!important;
+  }
+
+  .lp-page .lp-command-card{
+    padding:9px!important;
+    border-radius:11px!important;
+  }
+
+  .lp-page .lp-command-task{
+    grid-template-columns:12px minmax(0,1fr) auto!important;
+    gap:6px!important;
+    padding:7px 0!important;
+  }
+
+  .lp-page .lp-command-task span{
+    font-size:7px!important;
+  }
+
+  .lp-page .lp-command-task span small{
+    font-size:5.5px!important;
+  }
+
+  .lp-page .lp-progress-map,
+  .lp-page .lp-money-snapshot{
+    display:block!important;
+  }
+
+  .lp-page .lp-ring{
+    width:68px!important;
+    height:68px!important;
+  }
+
+  .lp-page .lp-bars{
+    height:30px!important;
+  }
+
+  .lp-page .lp-goal-momentum strong{
+    margin:11px 0 8px!important;
+  }
+
+  .lp-page .lp-float{
+    display:none!important;
+  }
+
+  /* Give the next homepage section a deliberate breathing gap.
+     The next section never overlaps the product module. */
+  .lp-page .lp-fragment{
+    margin-top:22px!important;
+    padding-top:52px!important;
+  }
+}
+
+/* Very narrow phones: keep the product module readable and contained. */
+@media (max-width:390px){
+  .lp-page .lp-main-window{
+    min-height:540px!important;
+  }
+
+  .lp-page .lp-window-body.lp-command-dashboard{
+    grid-template-columns:44px minmax(0,1fr)!important;
+  }
+
+  .lp-page .lp-command-main{
+    padding:10px!important;
+  }
+
+  .lp-page .lp-command-metric strong{
+    font-size:16px!important;
+  }
+}
+
+@media(max-width:700px){
+  .lp-page .lp-mobile-users{
+    display:flex;
+    align-items:center;
+    width:100%;
+    margin-top:22px;
+    padding:13px 15px;
+    border:1px solid rgba(92,76,232,.14);
+    border-radius:18px;
+    background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(245,243,255,.96));
+    box-shadow:0 10px 28px rgba(42,32,110,.08), inset 0 1px 0 rgba(255,255,255,.9);
+    gap:11px;
+    position:relative;
+    overflow:hidden;
+  }
+  .lp-page .lp-mobile-users::after{
+    content:"";
+    position:absolute;
+    width:110px;
+    height:110px;
+    right:-55px;
+    top:-55px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(92,76,232,.13),transparent 68%);
+    pointer-events:none;
+  }
+  .lp-page .lp-mobile-users-mark{
+    width:34px;
+    height:34px;
+    border-radius:11px;
+    display:grid;
+    place-items:center;
+    flex:0 0 34px;
+    color:var(--accent);
+    background:rgba(92,76,232,.09);
+    border:1px solid rgba(92,76,232,.10);
+  }
+  .lp-page .lp-mobile-users-count{
+    font-size:27px;
+    line-height:1;
+    font-weight:850;
+    letter-spacing:-.055em;
+    color:var(--text);
+  }
+  .lp-page .lp-mobile-users-copy{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    min-width:0;
+  }
+  .lp-page .lp-mobile-users-copy b{
+    font-size:12px;
+    line-height:1.1;
+    font-weight:800;
+    color:var(--text);
+  }
+  .lp-page .lp-mobile-users-copy small{
+    font-size:9px;
+    line-height:1.25;
+    color:var(--muted);
+    letter-spacing:.01em;
+  }
+}
+@media(max-width:380px){
+  .lp-page .lp-mobile-users{
+    margin-top:19px;
+    padding:12px 13px;
+    gap:9px;
+  }
+  .lp-page .lp-mobile-users-count{font-size:25px}
+  .lp-page .lp-mobile-users-copy small{font-size:8px}
+}

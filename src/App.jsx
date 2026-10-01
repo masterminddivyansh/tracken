@@ -680,11 +680,10 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
         <div className="lp-hero-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
         <div className="lp-hero-copy lp-reveal hero-reveal">
           <div className="landing-eyebrow"><span></span> PERSONAL PROGRESS OS</div>
-          <h1>Everything you’re working toward.<br/><em>In one place.</em></h1>
+          <h2>Everything you’re working toward.<br/><em>In one place.</em></h2>
           <p>Bring tasks, study, habits, goals, focus and money into one clear system for everyday progress.</p>
           <div className="landing-hero-actions"><button className="landing-primary" onClick={onRegister}>Start Free <ArrowRight size={18}/></button><a className="landing-secondary" href="#product">Explore TRACKEN <ChevronRight size={17}/></a></div>
-          <div className="lp-hero-proof"><span><CheckCircle2 size={15}/> Real workflows</span><span><ShieldCheck size={15}/> Personal workspace</span><span><Zap size={15}/> Built for daily use</span></div>
-          <h2><em>90+ Active Users</em></h2>
+          <div className="lp-hero-proof"><span><CheckCircle2 size={15}/> Real workflows</span><span><ShieldCheck size={15}/> Personal workspace</span><span><Zap size={15}/> Built for daily use</span></div><div className="lp-mobile-users" aria-label="TRACKEN active users"><span className="lp-mobile-users-mark"><Users size={16}/></span><span className="lp-mobile-users-count">90+</span><span className="lp-mobile-users-copy"><b>Active Users</b><small>building momentum every day</small></span></div>
         </div>
         <div className="lp-hero-stage lp-reveal" ref={stageRef} onMouseMove={onPointerMove} onMouseLeave={resetPointer}>
           <div className="lp-back-window"><div className="lp-window-bar"><TrackenLogo alt="TRACKEN"/><span>PERSONAL PROGRESS OS</span></div><div className="lp-back-lines"><i></i><i></i><i></i></div></div>
