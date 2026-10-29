@@ -683,7 +683,7 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
           <h2>Everything you’re working toward.<br/><em>In one place.</em></h2>
           <p>Bring tasks, study, habits, goals, focus and money into one clear system for everyday progress.</p>
           <div className="landing-hero-actions"><button className="landing-primary" onClick={onRegister}>Start Free <ArrowRight size={18}/></button><a className="landing-secondary" href="#product">Explore TRACKEN <ChevronRight size={17}/></a></div>
-          <div className="lp-hero-proof"><span><CheckCircle2 size={15}/> Real workflows</span><span><ShieldCheck size={15}/> Personal workspace</span><span><Zap size={15}/> Built for daily use</span></div><div className="lp-mobile-users" aria-label="TRACKEN active users"><span className="lp-mobile-users-mark"><Users size={16}/></span><span className="lp-mobile-users-count">90+</span><span className="lp-mobile-users-copy"><b>Active Users</b><small>building momentum every day</small></span></div>
+          <div className="lp-hero-proof"><span><CheckCircle2 size={15}/> Real workflows</span><span><ShieldCheck size={15}/> Personal workspace</span><span><Zap size={15}/> Built for daily use</span></div><div className="lp-mobile-users" aria-label="TRACKEN active users"><span className="lp-mobile-users-mark"><Users size={16}/></span><span className="lp-mobile-users-count">120+</span><span className="lp-mobile-users-copy"><b>Active Users</b><small>building momentum every day</small></span></div>
         </div>
         <div className="lp-hero-stage lp-reveal" ref={stageRef} onMouseMove={onPointerMove} onMouseLeave={resetPointer}>
           <div className="lp-back-window"><div className="lp-window-bar"><TrackenLogo alt="TRACKEN"/><span>PERSONAL PROGRESS OS</span></div><div className="lp-back-lines"><i></i><i></i><i></i></div></div>
@@ -744,7 +744,7 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
           <article className="lp-community-metric lp-community-featured"><span className="lp-community-icon"><Users size={18}/></span><strong>120+</strong><b>Active users</b><small>People tracking their progress</small></article>
           <article className="lp-community-metric"><span className="lp-community-icon"><TrendingUp size={18}/></span><strong>2,000+</strong><b>Times logged in</b><small>Visits to the workspace</small></article>
           <article className="lp-community-metric"><span className="lp-community-icon"><UserCheck size={18}/></span><strong>135+</strong><b>New users</b><small>Growing the community</small></article>
-          <article className="lp-community-metric"><span className="lp-community-icon"><Heart size={18}/></span><strong>95%</strong><b>Would recommend</b><small>Positive word-of-mouth signal</small></article>
+          <article className="lp-community-metric"><span className="lp-community-icon"><Heart size={18}/></span><strong>98%</strong><b>Would recommend</b><small>Positive word-of-mouth signal</small></article>
           <article className="lp-community-metric"><span className="lp-community-icon"><Zap size={18}/></span><strong>10+</strong><b>Average online</b><small>People around on average</small></article>
         </div>
         <div className="lp-community-bottom">
