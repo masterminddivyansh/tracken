@@ -731,6 +731,35 @@ function LandingHome({ theme, toggleTheme, onLogin, onRegister, onBlog, onContac
 
       <section className="lp-trust lp-reveal"><div className="landing-section-kicker">BUILT AROUND YOUR WORK</div><h2>Less maintenance.<br/><em>More context.</em></h2><div className="lp-trust-grid"><div><ShieldCheck/><b>Personal workspace</b><p>Your tracking stays inside your account workspace.</p></div><div><LockKeyhole/><b>Privacy-minded by design</b><p>Clear product language without inflated security claims.</p></div><div><LayoutDashboard/><b>Real product depth</b><p>Tasks, study, habits, goals, focus, money and review connect.</p></div></div></section>
 
+      <section className="lp-community lp-reveal" aria-labelledby="lp-community-title">
+        <div className="lp-community-top">
+          <div>
+            <div className="landing-section-kicker">THE TRACKEN COMMUNITY</div>
+            <h2 id="lp-community-title">Progress is better <em>together.</em></h2>
+            <p>A snapshot of the people discovering TRACKEN and building a more consistent everyday workflow.</p>
+          </div>
+          <div className="lp-community-live"><span aria-hidden="true"></span><b>COMMUNITY SNAPSHOT</b></div>
+        </div>
+        <div className="lp-community-metrics">
+          <article className="lp-community-metric lp-community-featured"><span className="lp-community-icon"><Users size={18}/></span><strong>120+</strong><b>Active users</b><small>People tracking their progress</small></article>
+          <article className="lp-community-metric"><span className="lp-community-icon"><TrendingUp size={18}/></span><strong>2,000+</strong><b>Times logged in</b><small>Visits to the workspace</small></article>
+          <article className="lp-community-metric"><span className="lp-community-icon"><UserCheck size={18}/></span><strong>135+</strong><b>New users</b><small>Growing the community</small></article>
+          <article className="lp-community-metric"><span className="lp-community-icon"><Heart size={18}/></span><strong>95%</strong><b>Would recommend</b><small>Positive word-of-mouth signal</small></article>
+          <article className="lp-community-metric"><span className="lp-community-icon"><Zap size={18}/></span><strong>10+</strong><b>Average online</b><small>People around on average</small></article>
+        </div>
+        <div className="lp-community-bottom">
+          <div className="lp-community-locations">
+            <div className="lp-community-subhead"><span>WHERE TRACKEN IS TRENDING</span><b><span className="lp-community-pulse"></span> INDIA</b></div>
+            <div className="lp-community-city-list"><span>Delhi</span><span>Varanasi</span><span>Chennai</span><span>Lucknow</span></div>
+          </div>
+          <div className="lp-community-global">
+            <div className="lp-community-subhead"><span>BEYOND BORDERS</span><b>WORLDWIDE</b></div>
+            <div className="lp-community-paris"><span className="lp-community-globe">✦</span><div><strong>Paris</strong><small>On the global trend map</small></div><ArrowRight size={17}/></div>
+          </div>
+        </div>
+        <div className="lp-community-footnote">Community figures and locations are presented as a snapshot and may change over time.</div>
+      </section>
+
       <section className="lp-faq lp-reveal" id="features"><div className="lp-section-intro"><div><div className="landing-section-kicker">QUESTIONS</div><h2>Start with the <em>essentials.</em></h2></div><p>Short answers for a product that is easier to understand when you can see it working.</p></div><div className="lp-faq-list">{FAQS.slice(0,4).map((item,i)=><details key={item.question} open={i===0}><summary><span>{String(i+1).padStart(2,"0")}</span><b>{item.question}</b><ChevronDown size={16}/></summary><p>{item.answer}</p></details>)}</div></section>
 
       <section className="lp-final lp-reveal"><div className="lp-final-orbit" aria-hidden="true"></div><TrackenLogo alt="TRACKEN"/><div className="landing-section-kicker">START WITH ONE THING</div><h2>Ready to see your progress <em>differently?</em></h2><p>Start with one task, one goal or one routine. Build the system as you go.</p><button className="landing-primary" onClick={onRegister}>Start Free <ArrowRight size={18}/></button><small>Already have an account? <button onClick={onLogin}>Log in.</button></small></section>
@@ -1537,6 +1566,12 @@ function Dashboard({ session, theme, toggleTheme, onLogout }) {
   const [reviewSnapshots, setReviewSnapshots] = useSyncedUserState(userId, "review_snapshots", [], 1500);
 
   useEffect(() => { document.body.classList.toggle("tasken-mobile-sidebar-open", mobileSidebarOpen); return () => document.body.classList.remove("tasken-mobile-sidebar-open"); }, [mobileSidebarOpen]);
+  useEffect(() => {
+    if (!mobileSidebarOpen) return undefined;
+    const closeOnEscape = (event) => { if (event.key === "Escape") setMobileSidebarOpen(false); };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [mobileSidebarOpen]);
   useEffect(() => { const openGoals = () => setShowTracker("goals"); window.addEventListener("tracken-open-goals", openGoals); return () => window.removeEventListener("tracken-open-goals", openGoals); }, []);
   useEffect(() => { const t = setInterval(() => setTimeGreeting(getTimeGreeting()), 60000); return () => clearInterval(t); }, []);
   useEffect(() => {
@@ -1741,25 +1776,33 @@ function Dashboard({ session, theme, toggleTheme, onLogout }) {
           </button>
         </div>
         <nav className="tracken-v2-nav">
-          <button className="tracken-v2-nav-item active"><LayoutDashboard size={17}/><span>Overview</span></button>
+          <button className="tracken-v2-nav-item active" onClick={() => { setMobileSidebarOpen(false); goOverview(); }}><LayoutDashboard size={17}/><span>Overview</span></button>
           <div className="tracken-v2-nav-label">TRACK</div>
-          <button className="tracken-v2-nav-item" onClick={()=>setShowTracker("tasks")}><ListChecks size={17}/><span>Tasks</span>{todoTasks.length>0&&<em>{todoTasks.length}</em>}</button>
-          <button className="tracken-v2-nav-item" onClick={()=>setShowStudy(true)}><BookOpen size={17}/><span>Study</span></button>
-          <button className="tracken-v2-nav-item" onClick={()=>setShowTracker("goals")}><Target size={17}/><span>Goals</span></button>
-          <button className="tracken-v2-nav-item" onClick={()=>setShowTracker("habits")}><Flame size={17}/><span>Habits</span></button>
-          <button className="tracken-v2-nav-item" onClick={()=>setShowTracker("focus")}><Timer size={17}/><span>Focus</span></button>
-          <button className="tracken-v2-nav-item tracken-v2-money-item" onClick={()=>setShowTracker("money")}><WalletCards size={17}/><span>Money</span></button>
-          <button className={`tracken-v2-nav-item tracken-v2-updates-item ${unreadUpdates ? "has-unread" : ""}`} onClick={()=>setShowUpdates(true)}><Bell size={17}/><span>Updates</span>{unreadUpdates>0&&<em>{unreadUpdates}</em>}</button>
+          <button className="tracken-v2-nav-item" onClick={()=>{setMobileSidebarOpen(false);setShowTracker("tasks")}}><ListChecks size={17}/><span>Tasks</span>{todoTasks.length>0&&<em>{todoTasks.length}</em>}</button>
+          <button className="tracken-v2-nav-item" onClick={()=>{setMobileSidebarOpen(false);setShowStudy(true)}}><BookOpen size={17}/><span>Study</span></button>
+          <button className="tracken-v2-nav-item" onClick={()=>{setMobileSidebarOpen(false);setShowTracker("goals")}}><Target size={17}/><span>Goals</span></button>
+          <button className="tracken-v2-nav-item" onClick={()=>{setMobileSidebarOpen(false);setShowTracker("habits")}}><Flame size={17}/><span>Habits</span></button>
+          <button className="tracken-v2-nav-item" onClick={()=>{setMobileSidebarOpen(false);setShowTracker("focus")}}><Timer size={17}/><span>Focus</span></button>
+          <button className="tracken-v2-nav-item tracken-v2-money-item" onClick={()=>{setMobileSidebarOpen(false);setShowTracker("money")}}><WalletCards size={17}/><span>Money</span></button>
+          <button className={`tracken-v2-nav-item tracken-v2-updates-item ${unreadUpdates ? "has-unread" : ""}`} onClick={()=>{setMobileSidebarOpen(false);setShowUpdates(true)}}><Bell size={17}/><span>Updates</span>{unreadUpdates>0&&<em>{unreadUpdates}</em>}</button>
         </nav>
         <div className="tracken-v2-sidebar-bottom">
           <span className="tracken-v2-version">Version 5.0.1</span>
           {isAdmin && <button className="tracken-v2-admin" onClick={()=>setShowAdmin(true)}><ShieldCheck size={15}/> Admin</button>}
         </div>
       </aside>
+      {mobileSidebarOpen && (
+        <button
+          type="button"
+          className="tracken-v2-mobile-backdrop"
+          aria-label="Close navigation menu"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
 
       <main className="tracken-v2-main">
         <header className="tracken-v2-topbar">
-          <div className="tracken-v2-mobile-brand"><button onClick={()=>setMobileSidebarOpen(v=>!v)} aria-label="Open navigation"><Menu size={19}/></button><span>TRACKEN</span></div>
+          <div className="tracken-v2-mobile-brand"><button type="button" onClick={()=>setMobileSidebarOpen(v=>!v)} aria-label={mobileSidebarOpen ? "Close navigation" : "Open navigation"} aria-expanded={mobileSidebarOpen}><Menu size={19}/></button><span>TRACKEN</span></div>
           <div className="tracken-v2-date">{today.toLocaleDateString("en-US", {weekday:"long", month:"long", day:"numeric"})}</div>
           <div className="tracken-v2-actions">
             <button className="tracken-v2-icon-btn" onClick={toggleTheme} aria-label="Toggle theme" title={theme === "light" ? "Dark mode" : "Light mode"}>{theme === "light" ? <Moon size={17}/> : <Sun size={17}/>}</button>
